@@ -1,6 +1,27 @@
-const Avatar = ({user, size}) => {
+import {useDispatch, useSelector} from "react-redux";
+import {changeAvatar, changeName} from "../actions/userAction.js";
+
+const Avatar = ({size}) => {
+
+    const {avatar, name} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
     return (
-<img className={`user-avatar ${size || ''}`} src={user.avatar}  alt={user.name}/>
+        <img
+            onClick={() => {
+                const url = prompt("Enter Avatar url");
+                dispatch(changeAvatar(url));
+            }}
+
+           onContextMenu = {(e) => {
+            e.preventDefault();
+            const name = prompt("Enter new name");
+               dispatch(changeName(name));
+        }}
+
+            className={`user-avatar ${size || ''}`}
+            src={avatar} alt={name}
+        />
     );
 };
 
